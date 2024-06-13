@@ -27,14 +27,15 @@ export async function GET(request: Request) {
     const result = UsernameQuerySchema.safeParse(queryParams); //zod validation
 
     if (!result.success) {
-      const usernameErrors = result.error.format().username?._errors || [];
+      const responseErrorMessage: string[] = result.error.errors.map(
+        (obj) => obj.message
+      );
+      const joinedresponseErrorMessage = responseErrorMessage.join("; ");
+
       return Response.json(
         {
           success: false,
-          message:
-            usernameErrors?.length > 0
-              ? usernameErrors.join(", ")
-              : "Invalid query parameters",
+          message: joinedresponseErrorMessage,
         },
         { status: 400 }
       );

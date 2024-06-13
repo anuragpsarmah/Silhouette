@@ -2,6 +2,7 @@ import dbConnect from "@/lib/dbConnect";
 import UserModel from "@/model/User";
 import bcrypt from "bcryptjs";
 import { sendVerificationEmail } from "@/helpers/sendVerificationEmail";
+import { signUpSchema } from "@/schemas/signUpSchema";
 
 export async function GET(request: Request) {
   return Response.json(
@@ -14,26 +15,38 @@ export async function GET(request: Request) {
 }
 
 export async function POST(request: Request) {
-  if (request.method !== "POST") {
-    return Response.json(
-      {
-        success: false,
-        message: "Invalid request method. Only POST requests are allowed.",
-      },
-      { status: 405 }
-    );
-  }
-
   await dbConnect();
 
   try {
     const { username, email, profileImageUrl, password } = await request.json();
 
-    const verifyUsername = await UserModel.findOne({
-      username
+    const result = signUpSchema.safeParse({
+      username,
+      email,
+      profileImageUrl,
+      password,
     });
 
-    if (verifyUsername) {
+    if (!result.success) {
+      const responseErrorMessage: string[] = result.error.errors.map(
+        (obj) => obj.message
+      );
+      const joinedresponseErrorMessage = responseErrorMessage.join("; ");
+
+      return Response.json(
+        {
+          success: false,
+          message: joinedresponseErrorMessage,
+        },
+        { status: 400 }
+      );
+    }
+
+    const isUsernamePresent = await UserModel.findOne({
+      username,
+    });
+
+    if (isUsernamePresent) {
       return Response.json(
         {
           success: false,

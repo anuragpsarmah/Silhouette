@@ -82,13 +82,15 @@ export async function POST(request: Request) {
       );
     }
 
-    return Response.json(
-      {
-        success: false,
-        message: "Invalid verification code.",
-      },
-      { status: 400 }
-    );
+    if (!isVerificationCodeCorrect) {
+      return Response.json(
+        {
+          success: false,
+          message: "Invalid verification code.",
+        },
+        { status: 400 }
+      );
+    }
   } catch (error) {
     console.error("Error verifying user", error);
     return Response.json(
