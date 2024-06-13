@@ -3,21 +3,19 @@ import UserModel from "@/model/User";
 import { z } from "zod";
 import { userNameValidationSchema } from "@/schemas/userNameValidationSchema";
 
-const UsernameQuerySchema = z.object({
-  username: userNameValidationSchema,
-});
+const UsernameQuerySchema = userNameValidationSchema;
+
+export async function POST(request: Request) {
+  return Response.json(
+    {
+      success: false,
+      message: "Invalid request method. Only GET requests are allowed.",
+    },
+    { status: 405 }
+  );
+}
 
 export async function GET(request: Request) {
-  if (request.method !== "GET") {
-    return Response.json(
-      {
-        success: false,
-        message: "Invalid request method. Only GET requests are allowed.",
-      },
-      { status: 405 }
-    );
-  }
-
   await dbConnect();
 
   try {

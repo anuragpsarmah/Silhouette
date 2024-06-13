@@ -3,6 +3,16 @@ import UserModel from "@/model/User";
 import bcrypt from "bcryptjs";
 import { sendVerificationEmail } from "@/helpers/sendVerificationEmail";
 
+export async function GET(request: Request) {
+  return Response.json(
+    {
+      success: false,
+      message: "Invalid request method. Only POST requests are allowed.",
+    },
+    { status: 405 }
+  );
+}
+
 export async function POST(request: Request) {
   if (request.method !== "POST") {
     return Response.json(
