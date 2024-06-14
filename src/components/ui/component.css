@@ -1,11 +1,11 @@
 @media (max-width: 1023px) {
-    .links {
-      display: none !important;
-    }
-    .register{
-        margin: 0px !important;
-    }
-    .container{
-        border: none !important;
-    }
+  .links {
+    display: none !important;
   }
+  .register {
+    justify-content: center !important;
+  }
+  .container {
+    border: none !important;
+  }
+}
