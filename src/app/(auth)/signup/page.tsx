@@ -153,7 +153,7 @@ export default function Page() {
       const data = await response.json();
       if (data.success) {
         console.log("User registered successfully:", data.message);
-        router.replace(`/verify/${"anuragpsarmah"}`);
+        // router.replace(`/verify/${"anuragpsarmah"}`);
       } else {
         console.error("Error registering user:", data.message);
       }
