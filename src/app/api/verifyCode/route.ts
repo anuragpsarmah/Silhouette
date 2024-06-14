@@ -1,6 +1,5 @@
 import dbConnect from "@/lib/dbConnect";
 import UserModel from "@/model/User";
-import { verificationCodeSchema } from "@/schemas/verificationCodeSchema";
 
 export async function GET(request: Request) {
   return Response.json(
