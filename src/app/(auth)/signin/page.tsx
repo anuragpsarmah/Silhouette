@@ -7,15 +7,17 @@ import { FloatingNavForm } from "@/components/ui/floating-navbar-form";
 import Grow from "@mui/material/Grow";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useRouter } from 'next/navigation';
+import { useRouter } from "next/navigation";
 import { signInSchema } from "@/schemas/signInSchema";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { signIn } from 'next-auth/react';
+import { signIn } from "next-auth/react";
+import { FaSpinner } from "react-icons/fa";
 
-export default function Page() {
+export default function SignIn() {
   const [GrowIn, setGrowIn] = useState<boolean>(true);
   const [isSmallScreen, setIsSmallScreen] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const router = useRouter();
 
   // States for form inputs
@@ -33,10 +35,10 @@ export default function Page() {
     };
 
     handleResize();
-    window.addEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
 
     return () => {
-      window.removeEventListener('resize', handleResize);
+      window.removeEventListener("resize", handleResize);
     };
   }, []);
 
@@ -52,6 +54,7 @@ export default function Page() {
   // Handle form submission
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsSubmitting(true);
 
     const signinParameters = {
       identifier: formData.identifier,
@@ -78,20 +81,39 @@ export default function Page() {
         draggable: true,
         progress: undefined,
         theme: "dark",
-        progressClassName: 'custom-progress-bar'
+        progressClassName: "custom-progress-bar",
       });
+      setIsSubmitting(false);
       return;
     } else {
       console.log("Parameters are valid");
     }
 
-    const result = await signIn("credentials", {
-      redirect: false,
-      ...signinParameters,
-    });
-    
-    if(result?.error) {
-      toast(result?.error, {
+    try {
+      const result = await signIn("credentials", {
+        redirect: false,
+        ...signinParameters,
+      });
+
+      if (result?.error) {
+        toast(result?.error, {
+          position: "bottom-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+          progressClassName: "custom-progress-bar",
+        });
+      }
+
+      if (result?.url) {
+        router.replace("/dashboard");
+      }
+    } catch (error) {
+      toast("Error signing in. Please try later.", {
         position: "bottom-right",
         autoClose: 3000,
         hideProgressBar: false,
@@ -100,20 +122,17 @@ export default function Page() {
         draggable: true,
         progress: undefined,
         theme: "dark",
-        progressClassName: 'custom-progress-bar'
+        progressClassName: "custom-progress-bar",
       });
-      return;
     }
-    
-    if(result?.url) {
-      router.push('/signup');
-    }
+
+    setIsSubmitting(false);
   };
 
   return (
     <HeroHighlight>
       <center>
-      {isSmallScreen ? (
+        {isSmallScreen ? (
           <FloatingNavForm
             navItems={[
               {
@@ -175,15 +194,16 @@ export default function Page() {
               required
             />
           </div>
-            <button
-              type="submit"
-              className="space-y-1 text-white inline-flex hover:brightness-200 h-10 animate-shimmer items-center justify-center rounded-lg border border-slate-800 bg-[linear-gradient(110deg,#000103,45%,#1e2631,55%,#000103)] bg-[length:200%_100%] px-6 font-medium text-slate-400 transition-colors focus:outline-none focus:ring-1 focus:ring-slate-300 focus:ring-offset-1 focus:ring-offset-slate-800"
-            >
-              Sign In
-            </button>
+          <button
+            type="submit"
+            className="space-y-1 text-white inline-flex hover:brightness-200 h-10 animate-shimmer items-center justify-center rounded-lg border border-slate-800 bg-[linear-gradient(110deg,#000103,45%,#1e2631,55%,#000103)] bg-[length:200%_100%] px-6 font-medium text-slate-400 transition-colors focus:outline-none focus:ring-1 focus:ring-slate-300 focus:ring-offset-1 focus:ring-offset-slate-800"
+            disabled={isSubmitting}
+          >
+            {isSubmitting ? <FaSpinner className="animate-spin" /> : "Sign In"}
+          </button>
           <div className="text-center text-sm mt-4">
             <p>
-              New to Silhouette?{" "}
+              Don't have an account?{" "}
               <Link href="/signup">
                 <span style={{ color: "rgb(51 107 198)" }}>Sign up</span>
               </Link>

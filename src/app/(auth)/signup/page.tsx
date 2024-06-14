@@ -14,13 +14,16 @@ import { signUpSchema } from "@/schemas/signUpSchema";
 import { useRouter } from 'next/navigation';
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { FaSpinner } from "react-icons/fa";
+import { set } from "lodash";
 
-export default function Page() {
+export default function SignUp() {
   const [GrowIn, setGrowIn] = useState<boolean>(true);
   const [isUsernameValid, setIsUsernameValid] = useState<boolean>(true);
   const [usernameAvailabilityMessage, setUsernameAvailabilityMessage] =
     useState("");
   const [isSmallScreen, setIsSmallScreen] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const router = useRouter();
 
   // States for form inputs
@@ -42,10 +45,10 @@ export default function Page() {
     };
 
     handleResize();
-    window.addEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
 
     return () => {
-      window.removeEventListener('resize', handleResize);
+      window.removeEventListener("resize", handleResize);
     };
   }, []);
 
@@ -87,7 +90,7 @@ export default function Page() {
   // Handle form submission
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
+    setIsSubmitting(true);
     let profileImageURL = "";
     if (formData.image && isUsernameValid) {
       try {
@@ -111,7 +114,7 @@ export default function Page() {
                 draggable: true,
                 progress: undefined,
                 theme: "dark",
-                progressClassName: 'custom-progress-bar'
+                progressClassName: "custom-progress-bar",
               });
               reject(error);
             },
@@ -132,12 +135,12 @@ export default function Page() {
           draggable: true,
           progress: undefined,
           theme: "dark",
-          progressClassName: 'custom-progress-bar'
+          progressClassName: "custom-progress-bar",
         });
       }
     } else {
       if (!formData.image) console.log("No image to upload");
-      else{
+      else {
         console.log("Username is invalid");
         toast("Username is invalid", {
           position: "bottom-right",
@@ -148,13 +151,17 @@ export default function Page() {
           draggable: true,
           progress: undefined,
           theme: "dark",
-          progressClassName: 'custom-progress-bar'
-        });        
+          progressClassName: "custom-progress-bar",
+        });
       }
+      setIsSubmitting(false);
       return;
     }
 
-    if(!profileImageURL) return;
+    if (!profileImageURL){
+      setIsSubmitting(false);
+      return;
+    }
 
     const signupParameters = {
       username: formData.username,
@@ -183,8 +190,9 @@ export default function Page() {
         draggable: true,
         progress: undefined,
         theme: "dark",
-        progressClassName: 'custom-progress-bar'
+        progressClassName: "custom-progress-bar",
       });
+      setIsSubmitting(false);
       return;
     } else {
       console.log("Parameters are valid");
@@ -198,22 +206,11 @@ export default function Page() {
         },
         body: JSON.stringify(signupParameters),
       });
-  
+
       const data = await response.json();
       if (data.success) {
         console.log("User registered successfully:", data.message);
-        toast("User registered successfully.", {
-          position: "bottom-right",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: true,
-          progress: undefined,
-          theme: "dark",
-          progressClassName: 'custom-progress-bar'
-        });
-        // router.replace(`/verify/${"anuragpsarmah"}`);
+        router.replace(`/verify/${formData.username}-{fromsignup}`);
       } else {
         console.error("Error during sign-up.", data.message);
         toast(data.message, {
@@ -225,7 +222,7 @@ export default function Page() {
           draggable: true,
           progress: undefined,
           theme: "dark",
-          progressClassName: 'custom-progress-bar'
+          progressClassName: "custom-progress-bar",
         });
       }
     } catch (error) {
@@ -239,15 +236,16 @@ export default function Page() {
         draggable: true,
         progress: undefined,
         theme: "dark",
-        progressClassName: 'custom-progress-bar'
+        progressClassName: "custom-progress-bar",
       });
     }
+    setIsSubmitting(false);
   };
 
   return (
     <HeroHighlight>
       <center>
-      {isSmallScreen ? (
+        {isSmallScreen ? (
           <FloatingNavForm
             navItems={[
               {
@@ -300,8 +298,11 @@ export default function Page() {
                   ? "text-green-300 text-sm"
                   : "text-red-300 text-sm"
               }
-
-              style={usernameAvailabilityMessage ? {display: "block"} : {display: "none"}}
+              style={
+                usernameAvailabilityMessage
+                  ? { display: "block" }
+                  : { display: "none" }
+              }
             >
               {usernameAvailabilityMessage}
             </p>
@@ -349,12 +350,17 @@ export default function Page() {
             />
           </div>
 
-            <button
-              type="submit"
-              className="space-y-1 text-white inline-flex hover:brightness-200 h-10 animate-shimmer items-center justify-center rounded-lg border border-slate-800 bg-[linear-gradient(110deg,#000103,45%,#1e2631,55%,#000103)] bg-[length:200%_100%] px-6 font-medium text-slate-400 transition-colors focus:outline-none focus:ring-1 focus:ring-slate-300 focus:ring-offset-1 focus:ring-offset-slate-800"
-            >
-              Sign Up
-            </button>
+          <button
+            type="submit"
+            className="space-y-1 text-white inline-flex hover:brightness-200 h-10 animate-shimmer items-center justify-center rounded-lg border border-slate-800 bg-[linear-gradient(110deg,#000103,45%,#1e2631,55%,#000103)] bg-[length:200%_100%] px-6 font-medium text-slate-400 transition-colors focus:outline-none focus:ring-1 focus:ring-slate-300 focus:ring-offset-1 focus:ring-offset-slate-800"
+            disabled={isSubmitting}
+          >
+            {isSubmitting ? (
+              <FaSpinner className="animate-spin" />
+            ) : (
+              "Sign Up"
+            )}
+          </button>
           <div className="text-center text-sm mt-4">
             <p>
               Already have an account?{" "}

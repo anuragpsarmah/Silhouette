@@ -54,6 +54,16 @@ export async function POST(request: Request) {
       );
     }
 
+    if(user.isVerified){
+      return Response.json(
+        {
+          success: true,
+          message: "User already verified.",
+        },
+        { status: 400 }
+      );
+    }
+
     const isVerificationCodeCorrect =
       user.verificationCode === validatedVerificationCode;
     const isVerificationCodeExpired = user.verificationCodeExpiry < new Date();
@@ -66,7 +76,7 @@ export async function POST(request: Request) {
       return Response.json(
         {
           success: true,
-          message: "user verified successfully.",
+          message: "User verified successfully.",
         },
         { status: 200 }
       );

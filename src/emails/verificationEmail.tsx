@@ -92,7 +92,7 @@ export default function VerificationEmail({
             </Text>
           </Row>
           <Row>
-            <center><Text className="code">{verificationCode}</Text></center>
+            <Text className="code">{verificationCode}</Text>
           </Row>
           <Row>
             <Text className="text">
