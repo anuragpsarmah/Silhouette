@@ -5,4 +5,7 @@
     .register{
         margin: 0px !important;
     }
+    .container{
+        border: none !important;
+    }
   }
