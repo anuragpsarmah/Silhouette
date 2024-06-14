@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { HeroHighlight } from "@/components/ui/hero-highlight";
 import { FlipWords } from "@/components/ui/flip-words";
-import { FloatingNav } from "@/components/ui/floating-navbar";
+import { FloatingNavMain } from "@/components/ui/floating-navbar-main";
 import Zoom from "@mui/material/Zoom";
 
 export default function Home() {
@@ -12,7 +12,7 @@ export default function Home() {
   return (
     <HeroHighlight>
       <center>
-        <FloatingNav
+        <FloatingNavMain
           navItems={[
             {
               name: "Home",
@@ -23,7 +23,7 @@ export default function Home() {
               link: "https://www.anuragpsarmah.me/#contact",
             },
           ]}
-        ></FloatingNav>
+        ></FloatingNavMain>
       </center>
       <center>
         <Zoom in={zoomIn} timeout={220}>

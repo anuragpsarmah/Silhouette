@@ -41,7 +41,7 @@ export default function VerificationEmail({
         <Row>
           <Text>
             Thank you for registering on Silhouette! Please use the following
-            verification to complete your registration:
+            verification code to complete your registration:
           </Text>
         </Row>
         <Row>
@@ -51,6 +51,11 @@ export default function VerificationEmail({
           <Text>
             If you did not request this code, please ignore this email.
           </Text>
+        </Row>
+        <Row>
+          <Text>Regards,</Text><br></br>
+          <Text>Anurag Parashar Sarmah</Text><br></br>
+          <Text>Developer at OnClique</Text>
         </Row>
       </Section>
     </Html>

@@ -3,7 +3,8 @@ import React, { useState, useEffect } from "react";
 import debounce from "lodash/debounce";
 import Link from "next/link";
 import { HeroHighlight } from "@/components/ui/hero-highlight";
-import { FloatingNav } from "@/components/ui/floating-navbar";
+import { FloatingNavMain } from "@/components/ui/floating-navbar-main";
+import { FloatingNavForm } from "@/components/ui/floating-navbar-form";
 import Zoom from "@mui/material/Zoom";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -17,6 +18,7 @@ export default function Page() {
   const [isUsernameValid, setIsUsernameValid] = useState<boolean>(true);
   const [usernameAvailabilityMessage, setUsernameAvailabilityMessage] =
     useState("");
+  const [isSmallScreen, setIsSmallScreen] = useState(false);
 
   // States for form inputs
   const [formData, setFormData] = useState<{
@@ -30,6 +32,20 @@ export default function Page() {
     password: "",
     image: null,
   });
+
+  // Check screen size on component mount and window resize
+  useEffect(() => {
+    const handleResize = () => {
+      setIsSmallScreen(window.innerWidth < 1024);
+    };
+
+    handleResize(); // Check initial screen size
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
 
   const checkUsernameAvailability = async (username: string) => {
     try {
@@ -47,7 +63,7 @@ export default function Page() {
   const debouncedCheckUsernameAvailability = debounce(
     checkUsernameAvailability,
     500
-  ); // Adjust the debounce delay as needed
+  );
 
   useEffect(() => {
     if (formData.username) {
@@ -137,7 +153,7 @@ export default function Page() {
       const data = await response.json();
       if (data.success) {
         console.log("User registered successfully:", data.message);
-        router.push('/verify');
+        router.push('/verify/${formData.username}');
       } else {
         console.error("Error registering user:", data.message);
       }
@@ -149,18 +165,33 @@ export default function Page() {
   return (
     <HeroHighlight>
       <center>
-        <FloatingNav
-          navItems={[
-            {
-              name: "Home",
-              link: "/",
-            },
-            {
-              name: "Contact",
-              link: "https://www.anuragpsarmah.me/#contact",
-            },
-          ]}
-        />
+      {isSmallScreen ? (
+          <FloatingNavForm
+            navItems={[
+              {
+                name: "Home",
+                link: "/",
+              },
+              {
+                name: "Contact",
+                link: "https://www.anuragpsarmah.me/#contact",
+              },
+            ]}
+          />
+        ) : (
+          <FloatingNavMain
+            navItems={[
+              {
+                name: "Home",
+                link: "/",
+              },
+              {
+                name: "Contact",
+                link: "https://www.anuragpsarmah.me/#contact",
+              },
+            ]}
+          />
+        )}
       </center>
       <Zoom in={zoomIn} timeout={250}>
         <form
@@ -184,8 +215,8 @@ export default function Page() {
             <p
               className={
                 usernameAvailabilityMessage.includes("unique")
-                  ? "text-green-500 text-sm"
-                  : "text-red-500 text-sm"
+                  ? "text-green-300 text-sm"
+                  : "text-red-300 text-sm"
               }
             >
               {usernameAvailabilityMessage}

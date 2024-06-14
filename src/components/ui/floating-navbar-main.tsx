@@ -5,7 +5,7 @@ import { cn } from "@/utils/cn";
 import Link from "next/link";
 import "./component.css"
 
-export const FloatingNav = ({
+export const FloatingNavMain = ({
   navItems,
   className,
 }: {

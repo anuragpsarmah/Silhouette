@@ -11,7 +11,7 @@ const key5 = process.env.NEXT_PUBLIC_FIREBASE_MESSAGINGSENDERID;
 const key6 = process.env.NEXT_PUBLIC_FIREBASE_APPID;
 const key7 = process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENTID;
 
-// Initialize Firebase
+// Firebase Configs
 const firebaseConfig = {
   apiKey: key1,
   authDomain: key2,
