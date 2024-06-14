@@ -1,20 +1,22 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import debounce from "lodash/debounce";
 import Link from "next/link";
 import { HeroHighlight } from "@/components/ui/hero-highlight";
 import { FloatingNav } from "@/components/ui/floating-navbar";
 import Zoom from "@mui/material/Zoom";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
-  ref,
-  uploadBytesResumable,
-  getDownloadURL,
-} from "firebase/storage";
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { storage } from "@/lib/FirebaseExports";
+import { signUpSchema } from "@/schemas/signUpSchema";
+import { useRouter } from 'next/router';
 
 export default function Page() {
   const [zoomIn, setZoomIn] = useState<boolean>(true);
+  const [isUsernameValid, setIsUsernameValid] = useState<boolean>(true);
+  const [usernameAvailabilityMessage, setUsernameAvailabilityMessage] =
+    useState("");
 
   // States for form inputs
   const [formData, setFormData] = useState<{
@@ -29,6 +31,32 @@ export default function Page() {
     image: null,
   });
 
+  const checkUsernameAvailability = async (username: string) => {
+    try {
+      const response = await fetch(
+        `/api/uniqueUsernameCheck?username=${username}`
+      );
+      const data = await response.json();
+      setUsernameAvailabilityMessage(data.message);
+      setIsUsernameValid(data.success);
+    } catch (error) {
+      console.error("Error checking username availability:", error);
+    }
+  };
+
+  const debouncedCheckUsernameAvailability = debounce(
+    checkUsernameAvailability,
+    500
+  ); // Adjust the debounce delay as needed
+
+  useEffect(() => {
+    if (formData.username) {
+      debouncedCheckUsernameAvailability(formData.username);
+    } else {
+      setUsernameAvailabilityMessage("");
+    }
+  }, [formData.username]);
+
   // Handle input change
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, files } = e.target;
@@ -41,35 +69,80 @@ export default function Page() {
   // Handle form submission
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    // Process the form data here
-    console.log("Form data:", formData);
+    const router = useRouter();
 
-    if (formData.image) {
+    let profileImageURL = "";
+    if (formData.image && isUsernameValid) {
       try {
         const imageRef = ref(storage, `profileImages/${formData.username}`);
         const uploadTask = uploadBytesResumable(imageRef, formData.image);
 
-        uploadTask.on(
-          "state_changed",
-          (snapshot) => {
-            // Progress function (optional)
-          },
-          (error) => {
-            console.error("Error uploading image: ", error);
-          },
-          async () => {
-            const imageUrl = await getDownloadURL(uploadTask.snapshot.ref);
-            console.log("Image uploaded successfully, URL:", imageUrl);
-            // Continue with form submission, including imageUrl in the data
-          }
-        );
+        profileImageURL = await new Promise((resolve, reject) => {
+          uploadTask.on(
+            "state_changed",
+            (snapshot) => {
+              // Progress function (optional)
+            },
+            (error) => {
+              console.error("Error uploading image: ", error);
+              reject(error);
+            },
+            async () => {
+              const url = await getDownloadURL(uploadTask.snapshot.ref);
+              resolve(url);
+            }
+          );
+        });
       } catch (error) {
         console.error("Error during image upload:", error);
       }
     } else {
-      // Handle form submission without an image
-      console.log("No image to upload");
+      if (!formData.image) console.log("No image to upload");
+      else console.log("Username is invalid");
+      return;
+    }
+
+    const signupParameters = {
+      username: formData.username,
+      email: formData.email,
+      profileImageUrl: profileImageURL,
+      password: formData.password,
+    };
+
+    const validateParameters = signUpSchema.safeParse(signupParameters);
+
+    if (!validateParameters.success) {
+      const responseErrorMessage: string[] =
+        validateParameters.error.errors.map((obj) => obj.message);
+      const joinedresponseErrorMessage = responseErrorMessage.join("; ");
+
+      console.log(
+        "Following parameters are invalid: ",
+        joinedresponseErrorMessage
+      );
+      return;
+    } else {
+      console.log("Parameters are valid");
+    }
+
+    try {
+      const response = await fetch("/api/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(signupParameters),
+      });
+  
+      const data = await response.json();
+      if (data.success) {
+        console.log("User registered successfully:", data.message);
+        router.push('/verify');
+      } else {
+        console.error("Error registering user:", data.message);
+      }
+    } catch (error) {
+      console.error("Error during sign-up:", error);
     }
   };
 
@@ -108,6 +181,15 @@ export default function Page() {
               className="bg-black text-white placeholder-neutral-400"
               required
             />
+            <p
+              className={
+                usernameAvailabilityMessage.includes("unique")
+                  ? "text-green-500 text-sm"
+                  : "text-red-500 text-sm"
+              }
+            >
+              {usernameAvailabilityMessage}
+            </p>
           </div>
 
           <div className="space-y-1">
