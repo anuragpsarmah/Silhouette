@@ -2,8 +2,6 @@ import dbConnect from "@/lib/dbConnect";
 import UserModel from "@/model/User";
 import { userNameValidationSchema } from "@/schemas/userNameValidationSchema";
 
-const UsernameQuerySchema = userNameValidationSchema;
-
 export async function POST(request: Request) {
   return Response.json(
     {
@@ -23,7 +21,7 @@ export async function GET(request: Request) {
       username: searchParams.get("username"),
     };
 
-    const result = UsernameQuerySchema.safeParse(queryParams); //zod validation
+    const result = userNameValidationSchema.safeParse(queryParams); //zod validation
 
     if (!result.success) {
       const responseErrorMessage: string[] = result.error.errors.map(

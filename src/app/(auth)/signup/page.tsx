@@ -5,16 +5,18 @@ import Link from "next/link";
 import { HeroHighlight } from "@/components/ui/hero-highlight";
 import { FloatingNavMain } from "@/components/ui/floating-navbar-main";
 import { FloatingNavForm } from "@/components/ui/floating-navbar-form";
-import Zoom from "@mui/material/Zoom";
+import Grow from "@mui/material/Grow";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { storage } from "@/lib/FirebaseExports";
 import { signUpSchema } from "@/schemas/signUpSchema";
 import { useRouter } from 'next/navigation';
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function Page() {
-  const [zoomIn, setZoomIn] = useState<boolean>(true);
+  const [GrowIn, setGrowIn] = useState<boolean>(true);
   const [isUsernameValid, setIsUsernameValid] = useState<boolean>(true);
   const [usernameAvailabilityMessage, setUsernameAvailabilityMessage] =
     useState("");
@@ -34,13 +36,12 @@ export default function Page() {
     image: null,
   });
 
-  // Check screen size on component mount and window resize
   useEffect(() => {
     const handleResize = () => {
       setIsSmallScreen(window.innerWidth < 1024);
     };
 
-    handleResize(); // Check initial screen size
+    handleResize();
     window.addEventListener('resize', handleResize);
 
     return () => {
@@ -101,6 +102,17 @@ export default function Page() {
             },
             (error) => {
               console.error("Error uploading image: ", error);
+              toast("Error uploading image.", {
+                position: "bottom-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: false,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+                progressClassName: 'custom-progress-bar'
+              });
               reject(error);
             },
             async () => {
@@ -110,13 +122,39 @@ export default function Page() {
           );
         });
       } catch (error) {
-        console.error("Error during image upload:", error);
+        console.error("Error uploading image.", error);
+        toast("Error uploading image.", {
+          position: "bottom-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+          progressClassName: 'custom-progress-bar'
+        });
       }
     } else {
       if (!formData.image) console.log("No image to upload");
-      else console.log("Username is invalid");
+      else{
+        console.log("Username is invalid");
+        toast("Username is invalid", {
+          position: "bottom-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+          progressClassName: 'custom-progress-bar'
+        });        
+      }
       return;
     }
+
+    if(!profileImageURL) return;
 
     const signupParameters = {
       username: formData.username,
@@ -136,6 +174,17 @@ export default function Page() {
         "Following parameters are invalid: ",
         joinedresponseErrorMessage
       );
+      toast("Signup parameters are invalid.", {
+        position: "bottom-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+        progressClassName: 'custom-progress-bar'
+      });
       return;
     } else {
       console.log("Parameters are valid");
@@ -153,12 +202,45 @@ export default function Page() {
       const data = await response.json();
       if (data.success) {
         console.log("User registered successfully:", data.message);
+        toast("User registered successfully.", {
+          position: "bottom-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+          progressClassName: 'custom-progress-bar'
+        });
         // router.replace(`/verify/${"anuragpsarmah"}`);
       } else {
-        console.error("Error registering user:", data.message);
+        console.error("Error during sign-up.", data.message);
+        toast(data.message, {
+          position: "bottom-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+          progressClassName: 'custom-progress-bar'
+        });
       }
     } catch (error) {
       console.error("Error during sign-up:", error);
+      toast("Error registering user.", {
+        position: "bottom-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+        progressClassName: 'custom-progress-bar'
+      });
     }
   };
 
@@ -193,7 +275,7 @@ export default function Page() {
           />
         )}
       </center>
-      <Zoom in={zoomIn} timeout={250}>
+      <Grow in={GrowIn} timeout={300}>
         <form
           onSubmit={handleSubmit}
           className="flex flex-col max-w-md mx-auto mt-[6rem] space-y-4 p-6 bg-black text-white border border-gray-500 rounded-lg shadow-lg lg:w-[34rem] mt-5"
@@ -269,7 +351,7 @@ export default function Page() {
 
             <button
               type="submit"
-              className="space-y-1 text-white inline-flex h-10 animate-shimmer items-center justify-center rounded-lg border border-slate-800 bg-[linear-gradient(110deg,#000103,45%,#1e2631,55%,#000103)] bg-[length:200%_100%] px-6 font-medium text-slate-400 transition-colors focus:outline-none focus:ring-1 focus:ring-slate-300 focus:ring-offset-1 focus:ring-offset-slate-800"
+              className="space-y-1 text-white inline-flex hover:brightness-200 h-10 animate-shimmer items-center justify-center rounded-lg border border-slate-800 bg-[linear-gradient(110deg,#000103,45%,#1e2631,55%,#000103)] bg-[length:200%_100%] px-6 font-medium text-slate-400 transition-colors focus:outline-none focus:ring-1 focus:ring-slate-300 focus:ring-offset-1 focus:ring-offset-slate-800"
             >
               Sign Up
             </button>
@@ -282,7 +364,8 @@ export default function Page() {
             </p>
           </div>
         </form>
-      </Zoom>
+      </Grow>
+      <ToastContainer />
     </HeroHighlight>
   );
 }

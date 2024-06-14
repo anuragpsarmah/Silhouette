@@ -7,6 +7,7 @@ import {
   Row,
   Section,
   Text,
+  Container,
 } from "@react-email/components";
 
 interface VerificationEmailProps {
@@ -32,31 +33,78 @@ export default function VerificationEmail({
           fontWeight={400}
           fontStyle="normal"
         />
+        <style>
+          {`
+            body, html {
+              margin: 0;
+              padding: 0;
+              background-color: #f6f6f6;
+              font-family: Roboto, Verdana, sans-serif;
+            }
+            .container {
+              max-width: 600px;
+              margin: 0 auto;
+              padding: 20px;
+              background-color: #ffffff;
+              border: 1px solid #ddd;
+              border-radius: 8px;
+            }
+            .heading {
+              font-size: 24px;
+              font-weight: bold;
+              color: #333;
+              margin-bottom: 20px;
+            }
+            .text {
+              font-size: 16px;
+              color: #555;
+              line-height: 1.5;
+              margin-bottom: 20px;
+            }
+            .code {
+              font-size: 20px;
+              font-weight: bold;
+              color: #333;
+              background-color: #f0f0f0;
+              padding: 10px;
+              border-radius: 4px;
+              display: inline-block;
+              margin-bottom: 20px;
+            }
+            .footer {
+              font-size: 14px;
+              color: #777;
+              margin-top: 20px;
+              text-align: center;
+            }
+          `}
+        </style>
       </Head>
-      <Preview>Here&apos;s your verification code: {verificationCode}</Preview>
+      <Preview>Your verification code: {verificationCode}</Preview>
       <Section>
-        <Row>
-          <Heading as="h2">Hello {username},</Heading>
-        </Row>
-        <Row>
-          <Text>
-            Thank you for registering on Silhouette! Please use the following
-            verification code to complete your registration:
-          </Text>
-        </Row>
-        <Row>
-          <Text>{verificationCode}</Text>
-        </Row>
-        <Row>
-          <Text>
-            If you did not request this code, please ignore this email.
-          </Text>
-        </Row>
-        <Row>
-          <Text>Regards,</Text><br></br>
-          <Text>Anurag Parashar Sarmah</Text><br></br>
-          <Text>Developer at OnClique</Text>
-        </Row>
+        <Container className="container">
+          <Row>
+            <Heading className="heading">Hello {username},</Heading>
+          </Row>
+          <Row>
+            <Text className="text">
+              Thank you for registering on Silhouette! Please use the following verification code to complete your registration:
+            </Text>
+          </Row>
+          <Row>
+            <center><Text className="code">{verificationCode}</Text></center>
+          </Row>
+          <Row>
+            <Text className="text">
+              If you did not request this code, please ignore this email.
+            </Text>
+          </Row>
+          <Row className="footer">
+            <Text className="text">Regards,</Text>
+            <Text className="text">Anurag Parashar Sarmah</Text>
+            <Text className="text">Developer at OnClique</Text>
+          </Row>
+        </Container>
       </Section>
     </Html>
   );

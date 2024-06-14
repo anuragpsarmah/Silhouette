@@ -54,3 +54,17 @@ body {
 #image::-webkit-file-upload-button:hover {
   background-color: #514a51;
 }
+
+.Toastify__toast {
+  background-color: #282c34;
+  color: #eee;
+  border-radius: 0.7rem;
+}
+
+.Toastify__progress-bar {
+  background-color: #ffffff !important;
+}
+
+.custom-progress-bar .Toastify__progress-bar {
+  background-color: #ffffff !important;
+}
