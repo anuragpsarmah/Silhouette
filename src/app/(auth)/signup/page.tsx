@@ -196,7 +196,7 @@ export default function Page() {
       <Zoom in={zoomIn} timeout={250}>
         <form
           onSubmit={handleSubmit}
-          className="max-w-md mx-auto mt-[6rem] space-y-4 p-6 bg-black text-white border border-gray-500 rounded-lg shadow-lg lg:w-[34rem] mt-5"
+          className="flex flex-col max-w-md mx-auto mt-[6rem] space-y-4 p-6 bg-black text-white border border-gray-500 rounded-lg shadow-lg lg:w-[34rem] mt-5"
         >
           <h2 className="text-2xl font-bold text-center">Sign Up</h2>
 
@@ -218,6 +218,8 @@ export default function Page() {
                   ? "text-green-300 text-sm"
                   : "text-red-300 text-sm"
               }
+
+              style={usernameAvailabilityMessage ? {display: "block"} : {display: "none"}}
             >
               {usernameAvailabilityMessage}
             </p>
@@ -265,14 +267,12 @@ export default function Page() {
             />
           </div>
 
-          <center>
             <button
               type="submit"
-              className="text-white inline-flex h-10 animate-shimmer items-center justify-center rounded-lg border border-slate-800 bg-[linear-gradient(110deg,#000103,45%,#1e2631,55%,#000103)] bg-[length:200%_100%] px-6 font-medium text-slate-400 transition-colors focus:outline-none focus:ring-1 focus:ring-slate-300 focus:ring-offset-1 focus:ring-offset-slate-800"
+              className="space-y-1 text-white inline-flex h-10 animate-shimmer items-center justify-center rounded-lg border border-slate-800 bg-[linear-gradient(110deg,#000103,45%,#1e2631,55%,#000103)] bg-[length:200%_100%] px-6 font-medium text-slate-400 transition-colors focus:outline-none focus:ring-1 focus:ring-slate-300 focus:ring-offset-1 focus:ring-offset-slate-800"
             >
               Sign Up
             </button>
-          </center>
           <div className="text-center text-sm mt-4">
             <p>
               Already have an account?{" "}

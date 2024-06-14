@@ -32,8 +32,7 @@ export default function Home() {
               <span className="lg:text-[4rem] sm:text-[3rem] silhouette">SILHOUETTE.</span>
               <br />
               <span className="lg:text-[1.8rem] sizes">
-                Critique Freely, Remain
-                <FlipWords words={wordsArray} duration={3000}></FlipWords>
+                Critique Freely, Remain<FlipWords words={wordsArray} duration={3000}></FlipWords>
               </span>
             </h1>
           </div>
