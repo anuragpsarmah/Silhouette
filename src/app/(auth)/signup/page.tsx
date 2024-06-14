@@ -11,7 +11,7 @@ import { Label } from "@/components/ui/label";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { storage } from "@/lib/FirebaseExports";
 import { signUpSchema } from "@/schemas/signUpSchema";
-import { redirect } from 'next/navigation'
+import { useRouter } from 'next/navigation';
 
 export default function Page() {
   const [zoomIn, setZoomIn] = useState<boolean>(true);
@@ -19,6 +19,7 @@ export default function Page() {
   const [usernameAvailabilityMessage, setUsernameAvailabilityMessage] =
     useState("");
   const [isSmallScreen, setIsSmallScreen] = useState(false);
+  const router = useRouter();
 
   // States for form inputs
   const [formData, setFormData] = useState<{
@@ -152,7 +153,7 @@ export default function Page() {
       const data = await response.json();
       if (data.success) {
         console.log("User registered successfully:", data.message);
-        redirect(`/verify/${formData.username}`)
+        router.replace(`/verify/${"anuragpsarmah"}`);
       } else {
         console.error("Error registering user:", data.message);
       }
