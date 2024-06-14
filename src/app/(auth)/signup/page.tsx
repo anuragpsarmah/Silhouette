@@ -11,7 +11,7 @@ import { Label } from "@/components/ui/label";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { storage } from "@/lib/FirebaseExports";
 import { signUpSchema } from "@/schemas/signUpSchema";
-import { useRouter } from 'next/router';
+import { redirect } from 'next/navigation'
 
 export default function Page() {
   const [zoomIn, setZoomIn] = useState<boolean>(true);
@@ -85,7 +85,6 @@ export default function Page() {
   // Handle form submission
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const router = useRouter();
 
     let profileImageURL = "";
     if (formData.image && isUsernameValid) {
@@ -153,7 +152,7 @@ export default function Page() {
       const data = await response.json();
       if (data.success) {
         console.log("User registered successfully:", data.message);
-        router.push('/verify/${formData.username}');
+        redirect(`/verify/${formData.username}`)
       } else {
         console.error("Error registering user:", data.message);
       }
