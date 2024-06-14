@@ -3,6 +3,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
 import dbConnect from "@/lib/dbConnect";
 import UserModel from "@/model/User";
+import { sendVerificationEmail } from "@/helpers/sendVerificationEmail";
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -38,12 +39,36 @@ export const authOptions: NextAuthOptions = {
               throw new Error("Incorrect password.");
             }
           } else {
-            throw new Error('Verify your email first.');
+            const expiryDate = new Date();
+            const sixDigitCode = Math.floor(
+              100000 + Math.random() * 900000
+            ).toString();
+            expiryDate.setHours(expiryDate.getHours() + 1);
+
+            user.verificationCode = sixDigitCode;
+            user.verificationCodeExpiry = expiryDate;
+
+            await user.save();
+
+            const emailResponse = await sendVerificationEmail(
+              user.email,
+              user.username,
+              sixDigitCode
+            );
+
+            if(!emailResponse.success) {
+              throw new Error("Signup again to verify your email.");
+            }
+
+            throw new Error("Verify your email first.");
           }
         } catch (err: any) {
-          console.log(err);          
-          throw new Error(err.message || "An error occurred while signing in. Please try again late");
-        }        
+          console.log(err);
+          throw new Error(
+            err.message ||
+              "An error occurred while signing in. Please try again later."
+          );
+        }
       },
     }),
   ],

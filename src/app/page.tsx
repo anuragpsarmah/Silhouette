@@ -19,6 +19,10 @@ export default function Home() {
               link: "/",
             },
             {
+              name: "About",
+              link: "/",
+            },
+            {
               name: "Contact",
               link: "https://www.anuragpsarmah.me/#contact",
             },

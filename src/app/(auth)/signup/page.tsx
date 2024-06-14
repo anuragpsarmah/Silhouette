@@ -253,6 +253,10 @@ export default function SignUp() {
                 link: "/",
               },
               {
+                name: "About",
+                link: "/",
+              },
+              {
                 name: "Contact",
                 link: "https://www.anuragpsarmah.me/#contact",
               },
@@ -263,6 +267,10 @@ export default function SignUp() {
             navItems={[
               {
                 name: "Home",
+                link: "/",
+              },
+              {
+                name: "About",
                 link: "/",
               },
               {

@@ -96,7 +96,12 @@ export default function SignIn() {
       });
 
       if (result?.error) {
-        toast(result?.error, {
+        if(result.error === "Verify your email first.") {
+          router.replace(`/verify/${formData.identifier}-fromsignin`);
+          return;
+        }
+        
+        toast(result.error, {
           position: "bottom-right",
           autoClose: 3000,
           hideProgressBar: false,
@@ -140,6 +145,10 @@ export default function SignIn() {
                 link: "/",
               },
               {
+                name: "About",
+                link: "/",
+              },
+              {
                 name: "Contact",
                 link: "https://www.anuragpsarmah.me/#contact",
               },
@@ -150,6 +159,10 @@ export default function SignIn() {
             navItems={[
               {
                 name: "Home",
+                link: "/",
+              },
+              {
+                name: "About",
                 link: "/",
               },
               {

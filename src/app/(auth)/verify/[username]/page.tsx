@@ -17,11 +17,11 @@ export default function verify() {
   const [isSmallScreen, setIsSmallScreen] = useState<boolean>(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const param = useParams<{ username: string }>();
-  const [username, fromSignup] = param.username.split("-");
+  const [identifier, fromPage] = param.username.split("-");
   const router = useRouter();
 
   useEffect(() => {
-    if (fromSignup === "fromsignup") {
+    if (fromPage === "fromsignup") {
       toast("User registered successfully. Verify your email.", {
         position: "bottom-right",
         autoClose: 3000,
@@ -33,8 +33,21 @@ export default function verify() {
         theme: "dark",
         progressClassName: "custom-progress-bar",
       });
-    }
-  }, [fromSignup]);
+    } 
+    if (fromPage === "fromsignin") {
+      toast("Verify your email.", {
+        position: "bottom-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+        progressClassName: "custom-progress-bar",
+      });
+    } 
+  }, [fromPage]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -102,14 +115,14 @@ export default function verify() {
       return;
     }
 
-    try {
+    try {      
       const response = await fetch("/api/verifyCode", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          username: username,
+          identifier,
           verificationCode: otpCode,
         }),
       });
@@ -161,6 +174,10 @@ export default function verify() {
                 link: "/",
               },
               {
+                name: "About",
+                link: "/",
+              },
+              {
                 name: "Contact",
                 link: "https://www.anuragpsarmah.me/#contact",
               },
@@ -171,6 +188,10 @@ export default function verify() {
             navItems={[
               {
                 name: "Home",
+                link: "/",
+              },
+              {
+                name: "About",
                 link: "/",
               },
               {

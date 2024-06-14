@@ -41,7 +41,7 @@ export const FloatingNavForm = ({
         >
           <Link href={"/"}>
             <button className="register border text-sm font-medium relative border-neutral-200 dark:border-white/[0.2] text-black dark:text-white px-4 py-2 rounded-full">
-              <span>Home</span>
+              <span className="dark:hover:text-neutral-300 hover:text-neutral-500">Home</span>
               <span className="absolute inset-x-0 w-1/2 mx-auto -bottom-px bg-gradient-to-r from-transparent via-blue-500 to-transparent h-px" />
             </button>
           </Link>

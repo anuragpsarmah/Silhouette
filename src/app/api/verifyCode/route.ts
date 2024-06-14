@@ -15,44 +15,25 @@ export async function GET(request: Request) {
 export async function POST(request: Request) {
   await dbConnect();
   try {
-    const { username, verificationCode } = await request.json();
-
-    const result = verificationCodeSchema.safeParse({
-      username,
-      verificationCode,
-    });
-
-    if (!result.success) {
-      const responseErrorMessage: string[] = result.error.errors.map(
-        (obj) => obj.message
-      );
-      const joinedresponseErrorMessage = responseErrorMessage.join("; ");
-
-      return Response.json(
-        {
-          success: false,
-          message: joinedresponseErrorMessage,
-        },
-        { status: 400 }
-      );
-    }
-
-    const validatedUsername = result.data.username;
-    const validatedVerificationCode = result.data.verificationCode;
+    const { identifier, verificationCode } = await request.json();
+    const updatedIdentifier = identifier.replace("%40", "@");  
 
     const user = await UserModel.findOne({
-      username: validatedUsername,
+      $or: [
+        { email: updatedIdentifier },
+        { username: updatedIdentifier },
+      ],
     });
 
     if (!user) {
       return Response.json(
         {
           success: false,
-          message: "Invalid username",
+          message: "Invalid username or email.",
         },
         { status: 400 }
       );
-    }
+    }    
 
     if(user.isVerified){
       return Response.json(
@@ -65,7 +46,7 @@ export async function POST(request: Request) {
     }
 
     const isVerificationCodeCorrect =
-      user.verificationCode === validatedVerificationCode;
+      user.verificationCode === verificationCode;
     const isVerificationCodeExpired = user.verificationCodeExpiry < new Date();
 
     if (isVerificationCodeCorrect && !isVerificationCodeExpired) {
@@ -102,7 +83,7 @@ export async function POST(request: Request) {
       );
     }
   } catch (error) {
-    console.error("Error verifying user", error);
+    console.error("Error verifying user.", error);
     return Response.json(
       {
         success: false,
