@@ -40,3 +40,17 @@ body {
     font-size: 3.2rem !important;
   }
 }
+
+#image::-webkit-file-upload-button {
+  background-color: rgb(47 48 58);
+  color: rgb(163 163 163);
+  margin-right: 0.5rem;
+  border-radius: 0.5rem;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+#image::-webkit-file-upload-button:hover {
+  background-color: #514a51;
+}
