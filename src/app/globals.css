@@ -31,3 +31,12 @@ body {
     text-wrap: balance;
   }
 }
+
+@media (max-width: 1023px) {
+  .sizes{
+    font-size: 1rem !important;
+  }
+  .silhouette{
+    font-size: 3.2rem !important;
+  }
+}

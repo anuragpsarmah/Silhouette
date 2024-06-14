@@ -1,0 +1,14 @@
+@media (max-width: 1023px) {
+    .links {
+      display: none !important;
+    }
+    .register{
+        margin: 0px !important;
+    }
+    .container{
+        position: absolute !important;
+        top: -550% !important; 
+        right: -180% !important;
+        border: none !important;
+    }
+  }
