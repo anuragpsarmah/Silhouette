@@ -181,7 +181,7 @@ export default function SignUp() {
         "Following parameters are invalid: ",
         joinedresponseErrorMessage
       );
-      toast("Signup parameters are invalid.", {
+      toast(joinedresponseErrorMessage, {
         position: "bottom-right",
         autoClose: 3000,
         hideProgressBar: false,
