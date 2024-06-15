@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { cn } from "@/utils/cn";
 import "./component.css";
 
-export function LampDemo() {
+export function Lamp() {
   return (
     <LampContainer>
       <motion.h1
@@ -17,14 +17,15 @@ export function LampDemo() {
             keyframes: [0, 0.5, 1],
           },
           y: {
-            duration: 1,
+            duration: 1.2,
             ease: "easeInOut",
           },
           delay: 1,
         }}
-        className="mt-8 bg-white py-4 bg-clip-text text-center text-4xl font-medium tracking-tight text-transparent md:text-7xl"
+        className="flex flex-col mt-8 gap-3 bg-black dark:bg-white py-4 bg-clip-text text-center text-4xl font-medium tracking-tight text-transparent md:text-7xl"
       >
-        Build lamps <br /> the right way
+        <span>Ready to handle</span>
+        <span>criticism?</span>
       </motion.h1>
     </LampContainer>
   );
@@ -47,11 +48,11 @@ export const LampContainer = ({
     >
       <div className="relative flex w-full flex-1 scale-y-125 items-center justify-center isolate z-0 ">
         <motion.div
-          initial={{ opacity: 0.5, width: "15rem" }}
-          whileInView={{ opacity: 0.9, width: "30rem" }}
+          initial={{ opacity: 0.4, width: "15rem" }}
+          whileInView={{ opacity: 0.8, width: "30rem" }}
           transition={{
             delay: 0.3,
-            duration: 0.8,
+            duration: 1.2,
             ease: "easeInOut",
           }}
           style={{
@@ -64,11 +65,11 @@ export const LampContainer = ({
           <div className="absolute  w-[100rem] h-[100%] left-0  bottom-0 z-20 [mask-image:linear-gradient(to_right,white,transparent)]" />
         </motion.div>
         <motion.div
-          initial={{ opacity: 0.5, width: "15rem" }}
-          whileInView={{ opacity: 0.9, width: "30rem" }}
+          initial={{ opacity: 0.4, width: "15rem" }}
+          whileInView={{ opacity: 0.8, width: "30rem" }}
           transition={{
             delay: 0.3,
-            duration: 0.8,
+            duration: 1.2,
             ease: "easeInOut",
           }}
           style={{
@@ -82,22 +83,12 @@ export const LampContainer = ({
         <div className="absolute top-1/2 h-20 w-full translate-y-12 scale-x-105 blur-2xl"></div>
         <div className="absolute top-1/2 z-50 h-20 w-full bg-transparent opacity-10 backdrop-blur-md"></div>
         <div className="absolute inset-auto z-50 h-20 w-[28rem] -translate-y-1/2 rounded-full bg-white opacity-50 blur-3xl"></div>
-        {/* <motion.div
-          initial={{ width: "8rem" }}
-          whileInView={{ width: "16rem" }}
-          transition={{
-            delay: 0.3,
-            duration: 0.8,
-            ease: "easeInOut",
-          }}
-          className="absolute inset-auto z-30 h-1000 w-1000 -translate-y-[6rem] rounded-full bg-white blur-2xl"
-        ></motion.div> */}
         <motion.div
           initial={{ width: "15rem" }}
           whileInView={{ width: "30rem" }}
           transition={{
             delay: 0.3,
-            duration: 0.8,
+            duration: 1.2,
             ease: "easeInOut",
           }}
           className="absolute inset-auto z-50 h-0.5 w-[30rem] -translate-y-[7rem] bg-white "
