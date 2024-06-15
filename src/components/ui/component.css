@@ -10,3 +10,20 @@
     padding: 0px !important;
   }
 }
+
+.bowlA {
+  overflow: visible;
+  -webkit-mask-image: linear-gradient(to bottom, black 50%, transparent 100%), linear-gradient(to left, black 80%, transparent 100%);
+  mask-image: linear-gradient(to bottom, black 50%, transparent 100%), linear-gradient(to left, black 80%, transparent 100%);
+  -webkit-mask-composite: destination-in;
+  mask-composite: intersect;
+}
+
+
+.bowlB {
+  overflow: visible;
+  -webkit-mask-image: linear-gradient(to bottom, black 50%, transparent 100%), linear-gradient(to right, black 80%, transparent 100%);
+  mask-image: linear-gradient(to bottom, black 50%, transparent 100%), linear-gradient(to right, black 80%, transparent 100%);
+  -webkit-mask-composite: destination-in;
+  mask-composite: intersect;
+}

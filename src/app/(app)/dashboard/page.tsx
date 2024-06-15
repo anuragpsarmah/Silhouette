@@ -1,10 +1,18 @@
 "use client";
-import React from 'react'
+import React, { useState, useEffect } from "react";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { HeroHighlight } from "@/components/ui/hero-highlight";
+import { LampDemo } from "@/components/ui/lamp";
+import Grow from "@mui/material/Grow";
+import { useRouter } from "next/navigation";
 
-const page = () => {
+export default function Dashboard() {
+
   return (
-    <div>page</div>
-  )
+    <HeroHighlight>
+      <LampDemo />
+      <ToastContainer />
+    </HeroHighlight>
+  );
 }
-
-export default page
