@@ -11,7 +11,7 @@ import { useParams } from "next/navigation";
 import { FaSpinner } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 
-export default function verify() {
+export default function Verify() {
   const [otp, setOtp] = useState<string[]>(new Array(6).fill(""));
   const [GrowIn, setGrowIn] = useState<boolean>(true);
   const [isSmallScreen, setIsSmallScreen] = useState<boolean>(false);
