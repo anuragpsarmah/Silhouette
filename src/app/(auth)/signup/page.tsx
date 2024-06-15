@@ -210,7 +210,7 @@ export default function SignUp() {
       const data = await response.json();
       if (data.success) {
         console.log("User registered successfully:", data.message);
-        router.replace(`/verify/${formData.username}-{fromsignup}`);
+        router.replace(`/verify/${formData.username}-fromsignup`);
       } else {
         console.error("Error during sign-up.", data.message);
         toast(data.message, {
