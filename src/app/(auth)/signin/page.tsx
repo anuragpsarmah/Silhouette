@@ -100,7 +100,7 @@ export default function SignIn() {
           router.replace(`/verify/${formData.identifier}-fromsignin`);
           return;
         }
-        
+
         toast(result.error, {
           position: "bottom-right",
           autoClose: 3000,
@@ -216,7 +216,7 @@ export default function SignIn() {
           </button>
           <div className="text-center text-sm mt-4">
             <p>
-              Don't have an account?{" "}
+              Don&apos;t have an account?{" "}
               <Link href="/signup">
                 <span style={{ color: "rgb(51 107 198)" }}>Sign up</span>
               </Link>
