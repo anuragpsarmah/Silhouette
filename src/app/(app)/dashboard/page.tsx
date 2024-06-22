@@ -4,13 +4,12 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { HeroHighlight } from "@/components/ui/hero-highlight";
 import { Lamp } from "@/components/ui/lamp";
-import Grow from "@mui/material/Grow";
 import { useRouter } from "next/navigation";
 import { useSession, signOut } from "next-auth/react";
 import { User } from "next-auth";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/utils/cn";
-import { alpha, styled } from "@mui/material/styles";
+import { styled } from "@mui/material/styles";
 import Switch from "@mui/material/Switch";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 
@@ -168,10 +167,29 @@ export default function Dashboard() {
             transition={{
               duration: 0.5,
             }}
-            className={cn("fixed top-4 right-4 z-50")}
-          >
+            className={cn("flex flex-row gap-2 fixed top-4 right-4 z-50")}
+          > 
             <button
               className="bg-slate-800 no-underline group cursor-pointer relative shadow-2xl shadow-zinc-900 rounded-full p-px text-xs font-semibold leading-6 text-white inline-block"
+              style={{width: "7rem"}}
+              onClick={() => {
+                router.replace(`/dashboard/messages`);
+              }}
+            >
+              <span className="absolute inset-0 overflow-hidden rounded-full">
+                <span className="absolute inset-0 rounded-full bg-[image:radial-gradient(75%_100%_at_50%_0%,rgba(56,189,248,0.6)_0%,rgba(56,189,248,0)_75%)] opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+              </span>
+              <div
+                style={{ padding: "0.4rem" }}
+                className="relative flex space-x-[4px] items-center justify-center z-10 rounded-full bg-zinc-950 py-0.5 ring-1 ring-white/10 "
+              >
+                <span>View Message</span>
+              </div>
+              <span className="absolute -bottom-0 left-[1.125rem] h-px w-[calc(100%-2.25rem)] bg-gradient-to-r from-emerald-400/0 via-emerald-400/90 to-emerald-400/0 transition-opacity duration-500 group-hover:opacity-40" />
+            </button>
+            <button
+              className="bg-slate-800 no-underline group cursor-pointer relative shadow-2xl shadow-zinc-900 rounded-full p-px text-xs font-semibold leading-6 text-white inline-block"
+              style={{width: "7rem"}}
               onClick={() => {
                 signOut();
               }}
@@ -180,8 +198,8 @@ export default function Dashboard() {
                 <span className="absolute inset-0 rounded-full bg-[image:radial-gradient(75%_100%_at_50%_0%,rgba(56,189,248,0.6)_0%,rgba(56,189,248,0)_75%)] opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
               </span>
               <div
-                style={{ padding: "0.4rem", paddingLeft: "1rem" }}
-                className="relative flex space-x-[4px] items-center z-10 rounded-full bg-zinc-950 py-0.5 ring-1 ring-white/10 "
+                style={{ padding: "0.4rem", paddingLeft: '0.9rem'}}
+                className="relative flex space-x-[4px] items-center justify-center z-10 rounded-full bg-zinc-950 py-0.5 ring-1 ring-white/10 "
               >
                 <span>Log Out</span>
                 <svg
