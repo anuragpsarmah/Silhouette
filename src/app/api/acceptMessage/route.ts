@@ -42,7 +42,7 @@ export async function POST(request: Request) {
       return Response.json(
         {
           success: true,
-          message: "Message acceptance toggled successfully.",
+          message: "Message acceptance toggled.",
           isAcceptingMessage: updatedUser.isAcceptingMessage,
         },
         { status: 200 }

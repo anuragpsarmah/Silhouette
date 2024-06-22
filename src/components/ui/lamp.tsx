@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { cn } from "@/utils/cn";
 import "./component.css";
@@ -38,13 +38,19 @@ export const LampContainer = ({
   children: React.ReactNode;
   className?: string;
 }) => {
+  const [isChecked, setIsChecked] = useState(false);
+
+  const handleChange = (event: any) => {
+    setIsChecked(event.target.checked);
+  };
+
   return (
     <div
       className={cn(
-        "relative flex min-h-screen w-full flex-col items-center justify-center overflow-hidden rounded-md z-0",
+        "relative flex min-h-[650px] w-full flex-col items-center justify-center overflow-x-hidden rounded-md z-0",
         className
       )}
-      style={{ width: "100vw", height: "100vh" }}
+      style={{ width: "100vw" }}
     >
       <div className="relative flex w-full flex-1 scale-y-125 items-center justify-center isolate z-0 ">
         <motion.div
@@ -94,10 +100,9 @@ export const LampContainer = ({
           className="absolute inset-auto z-50 h-0.5 w-[30rem] -translate-y-[7rem] bg-white "
         ></motion.div>
 
-        <div className="absolute inset-auto z-40 h-44 w-full -translate-y-[12.5rem] "></div>
+        <div className="relative inset-auto z-40 h-44 w-full -translate-y-[12.5rem] "></div>
       </div>
-
-      <div className="relative z-50 flex -translate-y-80 flex-col items-center px-5">
+      <div className="relative z-50 flex -translate-y-80 flex-col items-center px-5 mb-0">
         {children}
       </div>
     </div>
