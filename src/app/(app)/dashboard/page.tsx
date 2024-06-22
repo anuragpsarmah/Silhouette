@@ -114,23 +114,31 @@ export default function Dashboard() {
   }, [isChecked]);
 
   const WhiteSwitch = styled(Switch)(({ theme }) => ({
+    width: 70,
+    height: 34,
+    padding: 7,
     "& .MuiSwitch-switchBase": {
-      color: "#FFFFFF", // Unchecked color
-      "&:hover": {
-        backgroundColor: alpha("#808080", theme.palette.action.hoverOpacity), // Unchecked hover color
+      margin: 1,
+      padding: 0,
+      transform: "translateX(6px)",
+      "&.Mui-checked": {
+        color: "#FFFFFF",
+        transform: "translateX(22px)",
+        "& + .MuiSwitch-track": {
+          opacity: 1,
+          backgroundColor: "#FFFFFF",
+        },
       },
     },
-    "& .MuiSwitch-switchBase.Mui-checked": {
-      color: "#FFFFFF", // Checked color
-      "&:hover": {
-        backgroundColor: alpha("#FFFFFF", theme.palette.action.hoverOpacity), // Checked hover color
-      },
+    "& .MuiSwitch-thumb": {
+      backgroundColor: "#FFFFFF",
+      width: 30,
+      height: 30,
     },
     "& .MuiSwitch-track": {
-      backgroundColor: "#808080", // Unchecked track color
-    },
-    "& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track": {
-      backgroundColor: "#FFFFFF", // Checked track color
+      opacity: 1,
+      backgroundColor: "#808080",
+      borderRadius: 20 / 2,
     },
   }));
 
@@ -218,17 +226,27 @@ export default function Dashboard() {
             )}
           >
             <div className="flex flex-col items-center justify-centerp-4 rounded-lg">
-              <WhiteSwitch checked={isChecked} onChange={handleChange} />
+              <WhiteSwitch
+                checked={isChecked}
+                onChange={handleChange}
+                sx={{
+                  "& .MuiSwitch-switchBase": {
+                    "&.Mui-checked": {
+                      transform: "translateX(33px)",
+                    },
+                  },
+                }}
+              />
               <p className="mt-2 text-xl text-white">
                 {isChecked ? "Yep. Bring it on!" : "Nah. I am too sensitive!"}
               </p>
-              <div className="mt-[4rem] gap-2 flex flex-row item-center justify-center align-center">
+              <div className="mt-[4.5rem] gap-2 flex flex-row item-center justify-center align-center">
                 <input
                   ref={inputRef}
                   type="text"
                   value={`silhouette.in.net/${username}`}
                   readOnly
-                  className="p-2 text-black"
+                  className="p-2 text-black w-[17rem]"
                   style={{
                     backgroundColor: "rgb(147,147,147)",
                     borderRadius: "4px",
@@ -250,12 +268,11 @@ export default function Dashboard() {
                     })
                   }
                 >
-                  
                   <button
                     className="shadow-[0_0_0_2px_#000000_inset] px-6 py-2 bg-black border-[1px] border-black dark:border-white dark:text-white text-black rounded-lg font-bold"
                     onClick={() => inputRef.current?.select()}
                   >
-                   Copy
+                    Copy
                   </button>
                 </CopyToClipboard>
               </div>
