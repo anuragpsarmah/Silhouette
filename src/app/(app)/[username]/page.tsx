@@ -63,7 +63,7 @@ export default function Dashboard() {
                 />
               </motion.div>
             </AnimatePresence>
-            <Grow in={GrowIn} timeout={1200}>
+            <Grow in={GrowIn} timeout={1100}>
               <div className="mt-8 text-center">
                 <h1 className="text-3xl font-bold leading-10 text-white md:font-extrabold lg:text-[2.6rem] lg:leading-[3.5rem]">
                   <span className="lg:text-[1.8rem] sizes">
