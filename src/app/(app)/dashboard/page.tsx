@@ -12,6 +12,7 @@ import { cn } from "@/utils/cn";
 import { styled } from "@mui/material/styles";
 import Switch from "@mui/material/Switch";
 import { CopyToClipboard } from "react-copy-to-clipboard";
+import { FlipWordsConditional } from "@/components/ui/flip-words-conditional";
 
 export default function Dashboard() {
   const { data: session } = useSession();
@@ -168,10 +169,10 @@ export default function Dashboard() {
               duration: 0.5,
             }}
             className={cn("flex flex-row gap-2 fixed top-4 right-4 z-50")}
-          > 
+          >
             <button
               className="bg-slate-800 no-underline group cursor-pointer relative shadow-2xl shadow-zinc-900 rounded-full p-px text-xs font-semibold leading-6 text-white inline-block"
-              style={{width: "7rem"}}
+              style={{ width: "7rem" }}
               onClick={() => {
                 router.replace(`/dashboard/messages`);
               }}
@@ -189,7 +190,7 @@ export default function Dashboard() {
             </button>
             <button
               className="bg-slate-800 no-underline group cursor-pointer relative shadow-2xl shadow-zinc-900 rounded-full p-px text-xs font-semibold leading-6 text-white inline-block"
-              style={{width: "7rem"}}
+              style={{ width: "7rem" }}
               onClick={() => {
                 signOut();
               }}
@@ -198,7 +199,7 @@ export default function Dashboard() {
                 <span className="absolute inset-0 rounded-full bg-[image:radial-gradient(75%_100%_at_50%_0%,rgba(56,189,248,0.6)_0%,rgba(56,189,248,0)_75%)] opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
               </span>
               <div
-                style={{ padding: "0.4rem", paddingLeft: '0.9rem'}}
+                style={{ padding: "0.4rem", paddingLeft: "0.9rem" }}
                 className="relative flex space-x-[4px] items-center justify-center z-10 rounded-full bg-zinc-950 py-0.5 ring-1 ring-white/10 "
               >
                 <span>Log Out</span>
@@ -255,10 +256,12 @@ export default function Dashboard() {
                   },
                 }}
               />
-              <p className="mt-2 text-xl text-white">
-                {isChecked ? "Yep. Bring it on!" : "Nah. I am too sensitive!"}
-              </p>
-              <div className="mt-[4.5rem] gap-2 flex flex-row item-center justify-center align-center">
+              <FlipWordsConditional
+                words={["Nah. I am too sensitive!", "Yep. Bring it on!"]}
+                condition={isChecked}
+                className="mt-2 text-xl text-white"
+              />
+              <div className="mt-[8rem] gap-2 flex flex-row item-center justify-center align-center">
                 <input
                   ref={inputRef}
                   type="text"
@@ -271,7 +274,7 @@ export default function Dashboard() {
                   }}
                 />
                 <CopyToClipboard
-                  text={`silhouette.dev/${username}`}
+                  text={`silhouette.in.net/${username}`}
                   onCopy={() =>
                     toast("Copied to clipboard!", {
                       position: "bottom-right",
@@ -286,10 +289,7 @@ export default function Dashboard() {
                     })
                   }
                 >
-                  <button
-                    className="shadow-[0_0_0_2px_#000000_inset] px-6 py-2 bg-black border-[1px] border-black dark:border-white dark:text-white text-black rounded-lg font-bold"
-                    onClick={() => inputRef.current?.select()}
-                  >
+                  <button className="shadow-[0_0_0_2px_#000000_inset] px-6 py-2 bg-black border-[1px] border-black dark:border-white dark:text-white text-black rounded-lg font-bold">
                     Copy
                   </button>
                 </CopyToClipboard>
