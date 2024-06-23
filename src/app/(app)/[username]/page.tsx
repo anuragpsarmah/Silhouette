@@ -8,6 +8,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/utils/cn";
 import Grow from "@mui/material/Grow";
 import { PlaceholdersAndVanishInput } from "@/components/ui/placeholders-and-vanish-input";
+import { FaSpinner } from "react-icons/fa";
 
 export default function Dashboard() {
   const [isTyping, setIsTyping] = useState<boolean>(false);
@@ -19,6 +20,7 @@ export default function Dashboard() {
   const [inputValue, setInputValue] = useState<string>("");
   const [flag, setFlag] = useState<boolean>(false);
   const [isAcceptingMessage, setIsAcceptingMessage] = useState<boolean>(false);
+  const [isLoaded, setIsLoaded] = useState<boolean>(false);
 
   useEffect(() => {
     async function fetchProfileImageUrl() {
@@ -31,12 +33,13 @@ export default function Dashboard() {
       });
       const responseJson = await response.json();
 
-      if (responseJson.success){
+      if (responseJson.success) {
         setProfileImageData(responseJson.profileImageData);
-      }
-      else {
+        setIsLoaded(true);
+      } else {
         console.log("Error getting profile image url.", responseJson.message);
         setFlag(true);
+        setIsLoaded(true);
       }
     }
     fetchProfileImageUrl();
@@ -115,7 +118,7 @@ export default function Dashboard() {
   return (
     <HeroHighlight>
       <div className="fixed top-0 left-0 right-0 flex flex-col items-center z-50">
-        {profileImageData && (
+        {profileImageData && isLoaded ? (
           <>
             <AnimatePresence mode="wait">
               <motion.div
@@ -179,6 +182,20 @@ export default function Dashboard() {
               }
             </AnimatePresence>
           </>
+        ) : (
+          <div style={{ position: "relative", width: "100%", height: "100vh" }}>
+            <FaSpinner
+              className="animate-spin font-4xl"
+              style={{
+                position: "absolute",
+                top: "50%",
+                left: "50%",
+                transform: "translate(-50%, -50%)",
+                visibility: !isLoaded ? "visible" : "hidden",
+                fontSize: "28px",
+              }}
+            />
+          </div>
         )}
       </div>
       {flag && (
