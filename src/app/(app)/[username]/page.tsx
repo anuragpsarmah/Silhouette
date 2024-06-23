@@ -15,7 +15,6 @@ export default function Dashboard() {
   const router = useRouter();
   const param = useParams<{ username: string }>();
   const identifier = param.username;
-  const [profileImageURL, setProfileImageURL] = useState<string>("");
   const [profileImageData, setProfileImageData] = useState();
   const [inputValue, setInputValue] = useState<string>("");
   const [flag, setFlag] = useState<boolean>(false);
@@ -33,7 +32,6 @@ export default function Dashboard() {
       const responseJson = await response.json();
 
       if (responseJson.success){
-        setProfileImageURL(responseJson.profileImageUrl);
         setProfileImageData(responseJson.profileImageData);
       }
       else {
@@ -117,7 +115,7 @@ export default function Dashboard() {
   return (
     <HeroHighlight>
       <div className="fixed top-0 left-0 right-0 flex flex-col items-center z-50">
-        {profileImageURL && (
+        {profileImageData && (
           <>
             <AnimatePresence mode="wait">
               <motion.div
