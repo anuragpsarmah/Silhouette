@@ -20,11 +20,20 @@ export default function Dashboard() {
   const [isChecked, setIsChecked] = useState(false);
   const [isToggled, setIsToggled] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
+  const [processedURL, setProcessedURL] = useState("");
 
   const handleChange = (event: any) => {
     setIsToggled(true);
     setIsChecked(event.target.checked);
   };
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const baseURL = window.location.origin as string;
+      const cleanedURL = baseURL.replace(/^(https?:\/\/)?(www\.)?/, '');
+      setProcessedURL(cleanedURL);
+    }
+  }, []);
 
   useEffect(() => {
     async function getCurrentMessageAcceptanceStatus() {
@@ -261,7 +270,7 @@ export default function Dashboard() {
                 <input
                   ref={inputRef}
                   type="text"
-                  value={`${window.location.origin}/${username}`}
+                  value={`${processedURL}/${username}`}
                   readOnly
                   className="p-2 text-black w-[17rem]"
                   style={{
@@ -270,7 +279,7 @@ export default function Dashboard() {
                   }}
                 />
                 <CopyToClipboard
-                  text={`${window.location.origin}/${username}`}
+                  text={`${processedURL}/${username}`}
                   onCopy={() =>
                     toast("Copied to clipboard!", {
                       position: "bottom-right",
