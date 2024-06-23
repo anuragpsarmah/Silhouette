@@ -14,9 +14,10 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   await dbConnect();
-  const { username } = await request.json();
+  const body = await request.json();
+  const username = body.username;  
 
-  const result = userNameValidationSchema.safeParse(username);
+  const result = userNameValidationSchema.safeParse({username: username});
 
   if (!result.success) {
     const responseErrorMessage: string[] = result.error.errors.map(
