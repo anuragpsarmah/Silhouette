@@ -14,13 +14,19 @@ export default function Dashboard() {
   const [isTyping, setIsTyping] = useState<boolean>(false);
   const [GrowIn, setGrowIn] = useState<boolean>(true);
   const router = useRouter();
-  const param = useParams<{ username: string }>();
-  const identifier = param.username;
   const [profileImageData, setProfileImageData] = useState();
   const [inputValue, setInputValue] = useState<string>("");
   const [flag, setFlag] = useState<boolean>(false);
   const [isAcceptingMessage, setIsAcceptingMessage] = useState<boolean>(false);
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
+  const [processedUsername, setProcessedUsername] = useState<string>("");
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const cleanedUsername = window.location.pathname.split('/').filter(Boolean).pop();
+      setProcessedUsername(cleanedUsername || '');      
+    }
+  }, []);
 
   useEffect(() => {
     async function fetchProfileImageUrl() {
@@ -29,7 +35,7 @@ export default function Dashboard() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ username: identifier }),
+        body: JSON.stringify({ username: processedUsername }),
       });
       const responseJson = await response.json();
 
@@ -42,8 +48,8 @@ export default function Dashboard() {
         setIsLoaded(true);
       }
     }
-    fetchProfileImageUrl();
-  }, []);
+    if(processedUsername) fetchProfileImageUrl();
+  }, [processedUsername]);
 
   useEffect(() => {
     async function getAcceptanceStatus() {
@@ -53,12 +59,13 @@ export default function Dashboard() {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ username: identifier }),
+          body: JSON.stringify({ username: processedUsername }),
         });
 
         const data = await response.json();
+        console.log(data, processedUsername);        
 
-        setIsAcceptingMessage(data?.isAcceptingMessage);
+        if(data.success) setIsAcceptingMessage(data.isAcceptingMessage);
 
         if (response.status != 200) {
           toast(data.message, {
@@ -89,8 +96,8 @@ export default function Dashboard() {
       }
     }
 
-    getAcceptanceStatus();
-  }, []);
+    if(processedUsername) getAcceptanceStatus();
+  }, [processedUsername]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -102,6 +109,22 @@ export default function Dashboard() {
     e.preventDefault();
     setInputValue("");
     setIsTyping(false);
+    console.log(isAcceptingMessage);
+    
+    if(!isAcceptingMessage) {
+      toast("User can't handle criticism. Try later.", {
+        position: "bottom-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+        progressClassName: "custom-progress-bar",
+      });
+      return;
+    }
     console.log("Submitted:", inputValue);
     // You can add your logic for submission here
   };

@@ -16,7 +16,7 @@ export async function POST(request: Request) {
   const { username } = await request.json();
 
   try {
-    const foundUser = await UserModel.findOne(username.username);
+    const foundUser = await UserModel.findOne({username});
 
     if (!foundUser) {
       return Response.json(
@@ -26,7 +26,7 @@ export async function POST(request: Request) {
         },
         { status: 404 }
       );
-    } else {
+    } else {      
       return Response.json(
         {
           success: true,
