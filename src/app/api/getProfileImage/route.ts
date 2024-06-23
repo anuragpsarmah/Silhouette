@@ -1,6 +1,7 @@
 import dbConnect from "@/lib/dbConnect";
 import UserModel from "@/model/User";
 import { userNameValidationSchema } from "@/schemas/userNameValidationSchema";
+import fetch from "node-fetch";
 
 export async function GET(request: Request) {
   return Response.json(
@@ -40,12 +41,26 @@ export async function POST(request: Request) {
     });
 
     if (user) {
-      return Response.json(
-        {
+      const profileImageUrl = user.profileImageUrl;
+
+      // Fetch the image data from the profileImageUrl
+      const imageResponse = await fetch(profileImageUrl);
+      if (!imageResponse.ok) {
+        throw new Error('Failed to fetch image');
+      }
+
+      // Convert the node-fetch response to a native Response
+      const imageBuffer = await imageResponse.arrayBuffer();
+      const base64Image = Buffer.from(imageBuffer).toString('base64');
+      const mimeType = imageResponse.headers.get('content-type') || '';
+
+      return new Response(
+        JSON.stringify({
           success: true,
-          profileImageUrl: user.profileImageUrl,
-        },
-        { status: 200 }
+          profileImageUrl: profileImageUrl,
+          profileImageData: `data:${mimeType};base64,${base64Image}`,
+        }),
+        { status: 200, headers: { "Content-Type": "application/json" } }
       );
     }
 

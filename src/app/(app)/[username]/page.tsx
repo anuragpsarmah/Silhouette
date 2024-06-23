@@ -16,6 +16,7 @@ export default function Dashboard() {
   const param = useParams<{ username: string }>();
   const identifier = param.username;
   const [profileImageURL, setProfileImageURL] = useState<string>("");
+  const [profileImageData, setProfileImageData] = useState();
   const [inputValue, setInputValue] = useState<string>("");
   const [flag, setFlag] = useState<boolean>(false);
   const [isAcceptingMessage, setIsAcceptingMessage] = useState<boolean>(false);
@@ -31,8 +32,10 @@ export default function Dashboard() {
       });
       const responseJson = await response.json();
 
-      if (responseJson.success)
+      if (responseJson.success){
         setProfileImageURL(responseJson.profileImageUrl);
+        setProfileImageData(responseJson.profileImageData);
+      }
       else {
         console.log("Error getting profile image url.", responseJson.message);
         setFlag(true);
@@ -132,7 +135,7 @@ export default function Dashboard() {
                 className="mt-[6rem]"
               >
                 <img
-                  src={profileImageURL}
+                  src={profileImageData}
                   className="rounded-full w-[17rem] h-[17rem] object-cover"
                   alt="Profile"
                 />
