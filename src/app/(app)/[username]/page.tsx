@@ -12,7 +12,7 @@ export default function Dashboard() {
   const router = useRouter();
   const param = useParams<{ username: string }>();
   const identifier = param.username;
-  const [profileImageURL, setProfileImageURL] = useState<string | undefined>();
+  const [profileImageURL, setProfileImageURL] = useState<string>("");
 
   useEffect(() => {
     async function fetchProfileImageUrl() {
