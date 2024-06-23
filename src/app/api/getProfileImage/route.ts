@@ -51,7 +51,7 @@ export async function POST(request: Request) {
 
     return Response.json(
       {
-        success: true,
+        success: false,
         message: "User not found.",
       },
       { status: 404 }

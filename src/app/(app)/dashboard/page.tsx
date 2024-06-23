@@ -148,10 +148,6 @@ export default function Dashboard() {
 
   const { username } = session.user as User;
 
-  const handleLogout = () => {
-    signOut({ callbackUrl: "/" });
-  };
-
   return (
     <HeroHighlight>
       <AnimatePresence mode="wait">
@@ -265,7 +261,7 @@ export default function Dashboard() {
                 <input
                   ref={inputRef}
                   type="text"
-                  value={`silhouette.in.net/${username}`}
+                  value={`${window.location.origin}/${username}`}
                   readOnly
                   className="p-2 text-black w-[17rem]"
                   style={{
@@ -274,7 +270,7 @@ export default function Dashboard() {
                   }}
                 />
                 <CopyToClipboard
-                  text={`silhouette.in.net/${username}`}
+                  text={`${window.location.origin}/${username}`}
                   onCopy={() =>
                     toast("Copied to clipboard!", {
                       position: "bottom-right",
