@@ -72,7 +72,7 @@ export async function POST(request: Request) {
       return Response.json(
         {
           success: false,
-          message: "User is not accepting messages",
+          message: "User can't handle criticism. Try later.",
         },
         { status: 403 }
       );

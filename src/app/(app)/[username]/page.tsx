@@ -3,12 +3,13 @@ import React, { useState, useEffect } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { HeroHighlight } from "@/components/ui/hero-highlight";
-import { useRouter, useParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/utils/cn";
 import Grow from "@mui/material/Grow";
 import { PlaceholdersAndVanishInput } from "@/components/ui/placeholders-and-vanish-input";
 import { FaSpinner } from "react-icons/fa";
+import Link from "next/link";
 
 export default function Dashboard() {
   const [isTyping, setIsTyping] = useState<boolean>(false);
@@ -17,14 +18,16 @@ export default function Dashboard() {
   const [profileImageData, setProfileImageData] = useState();
   const [inputValue, setInputValue] = useState<string>("");
   const [flag, setFlag] = useState<boolean>(false);
-  const [isAcceptingMessage, setIsAcceptingMessage] = useState<boolean>(false);
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
   const [processedUsername, setProcessedUsername] = useState<string>("");
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      const cleanedUsername = window.location.pathname.split('/').filter(Boolean).pop();
-      setProcessedUsername(cleanedUsername || '');      
+      const cleanedUsername = window.location.pathname
+        .split("/")
+        .filter(Boolean)
+        .pop();
+      setProcessedUsername(cleanedUsername || "");
     }
   }, []);
 
@@ -48,41 +51,48 @@ export default function Dashboard() {
         setIsLoaded(true);
       }
     }
-    if(processedUsername) fetchProfileImageUrl();
+    if (processedUsername) fetchProfileImageUrl();
   }, [processedUsername]);
 
-  useEffect(() => {
-    async function getAcceptanceStatus() {
-      try {
-        const response = await fetch(`/api/acceptMessageAnonymous`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ username: processedUsername }),
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setInputValue(value);
+    setIsTyping(value.length > 0);
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setInputValue("");
+    setIsTyping(false);
+
+    try {
+      const response = await fetch("/api/sendMessage", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username: processedUsername,
+          content: inputValue,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        toast("Message sent successfully!", {
+          position: "bottom-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+          progressClassName: "custom-progress-bar",
         });
-
-        const data = await response.json();
-        console.log(data, processedUsername);        
-
-        if(data.success) setIsAcceptingMessage(data.isAcceptingMessage);
-
-        if (response.status != 200) {
-          toast(data.message, {
-            position: "bottom-right",
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: false,
-            draggable: true,
-            progress: undefined,
-            theme: "dark",
-            progressClassName: "custom-progress-bar",
-          });
-        }
-      } catch (error) {
-        console.log("Error updating message acceptance status: ", error);
-        toast("Error updating message acceptance status.", {
+      } else {
+        toast(data.message, {
           position: "bottom-right",
           autoClose: 3000,
           hideProgressBar: false,
@@ -94,25 +104,9 @@ export default function Dashboard() {
           progressClassName: "custom-progress-bar",
         });
       }
-    }
-
-    if(processedUsername) getAcceptanceStatus();
-  }, [processedUsername]);
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setInputValue(value);
-    setIsTyping(value.length > 0);
-  };
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setInputValue("");
-    setIsTyping(false);
-    console.log(isAcceptingMessage);
-    
-    if(!isAcceptingMessage) {
-      toast("User can't handle criticism. Try later.", {
+    } catch (error) {
+      console.error("Error sending message:", error);
+      toast("An error occurred while sending the message", {
         position: "bottom-right",
         autoClose: 3000,
         hideProgressBar: false,
@@ -123,10 +117,7 @@ export default function Dashboard() {
         theme: "dark",
         progressClassName: "custom-progress-bar",
       });
-      return;
     }
-    console.log("Submitted:", inputValue);
-    // You can add your logic for submission here
   };
 
   const placeholders = [
@@ -200,6 +191,12 @@ export default function Dashboard() {
                       onSubmit={handleSubmit}
                       value={inputValue}
                     />
+                    <div className="mt-7 text-center text-white text-sm text-neutral-400">
+                      <span>Want to be critiqued? </span>
+                      <Link href="https://www.silhouette.in.net/" className="text-neutral-50">
+                        Join Now.
+                      </Link>
+                    </div>
                   </div>
                 </motion.div>
               }
