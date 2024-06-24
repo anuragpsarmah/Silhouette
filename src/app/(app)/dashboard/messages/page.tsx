@@ -98,6 +98,7 @@ export default function Dashboard() {
       });
       const data = await response.json();
       if (data.success) {
+        setMessages(prevMessages => prevMessages.filter(msg => msg._id !== messageId));
         toast(data.message, {
           position: "bottom-right",
           autoClose: 3000,
@@ -109,7 +110,6 @@ export default function Dashboard() {
           theme: "dark",
           progressClassName: "custom-progress-bar",
         });
-        fetchMessages();
       } else {
         toast(data.message, {
           position: "bottom-right",
@@ -139,10 +139,13 @@ export default function Dashboard() {
   };
 
   useEffect(() => {
-    if(messages.length == 0){
-      flag = !flag;
+    if (messages.length === 0) {
+      setGrowIn(false);
+      setTimeout(() => {
+        setGrowIn(true);
+      }, 100);
     }
-  }, [messages])
+  }, [messages]);
 
   const nextSlide = () => {
     setDirection("right");
@@ -175,7 +178,7 @@ export default function Dashboard() {
           isLoaded ? (
             <Grow in={GrowIn} timeout={1200}>
               <div>
-                <h1 className="text-3xl font-bold mb-8">
+                <h1 className="text-3xl font-bold mb-8 text-white">
                   Well, you haven't been criticised yet. That's a good thing.
                 </h1>
                 <center>

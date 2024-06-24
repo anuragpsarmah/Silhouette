@@ -205,7 +205,7 @@ export default function Dashboard() {
         ) : (
           <div style={{ position: "relative", width: "100%", height: "100vh" }}>
             <FaSpinner
-              className="animate-spin font-4xl"
+              className="animate-spin font-4xl text-white"
               style={{
                 position: "absolute",
                 top: "50%",
@@ -219,7 +219,7 @@ export default function Dashboard() {
         )}
       </div>
       {flag && (
-        <div className="text-2xl">
+        <div className="text-2xl text-white">
           <h1>404 NOT FOUND</h1>
         </div>
       )}
