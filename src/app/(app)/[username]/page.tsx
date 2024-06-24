@@ -191,8 +191,8 @@ export default function Dashboard() {
                       onSubmit={handleSubmit}
                       value={inputValue}
                     />
-                    <div className="mt-7 text-center text-white text-sm text-neutral-400">
-                      <span>Want to be critiqued? </span>
+                    <div className="mt-7 text-center text-white text-sm">
+                      <span className="text-neutral-400">Want to be critiqued? </span>
                       <Link href="https://www.silhouette.in.net/" className="text-neutral-50">
                         Join Now.
                       </Link>

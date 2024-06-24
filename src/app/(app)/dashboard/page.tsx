@@ -303,7 +303,6 @@ export default function Dashboard() {
           </motion.div>
         }
       </AnimatePresence>
-
       <ToastContainer />
     </HeroHighlight>
   );
