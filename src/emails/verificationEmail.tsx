@@ -91,7 +91,7 @@ export default function VerificationEmail({
             <Text className="text">
               Thank you for registering on Silhouette! Please use the following verification code to complete your registration. If you did not request this code, please ignore this email.
             </Text>
-          </Row>
+          </Row>  
           <Row>
             <Text className="code">{verificationCode}</Text>
           </Row>
