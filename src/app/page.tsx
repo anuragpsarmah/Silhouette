@@ -20,7 +20,7 @@ export default function Home() {
             },
             {
               name: "About",
-              link: "/",
+              link: "/about",
             },
             {
               name: "Contact",

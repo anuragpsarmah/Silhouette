@@ -254,7 +254,7 @@ export default function SignUp() {
               },
               {
                 name: "About",
-                link: "/",
+                link: "/about",
               },
               {
                 name: "Contact",
@@ -271,7 +271,7 @@ export default function SignUp() {
               },
               {
                 name: "About",
-                link: "/",
+                link: "/about",
               },
               {
                 name: "Contact",

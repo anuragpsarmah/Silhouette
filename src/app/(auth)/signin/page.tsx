@@ -146,7 +146,7 @@ export default function SignIn() {
               },
               {
                 name: "About",
-                link: "/",
+                link: "/about",
               },
               {
                 name: "Contact",
@@ -163,7 +163,7 @@ export default function SignIn() {
               },
               {
                 name: "About",
-                link: "/",
+                link: "/about",
               },
               {
                 name: "Contact",
