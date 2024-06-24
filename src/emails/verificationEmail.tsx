@@ -70,12 +70,13 @@ export default function VerificationEmail({
               border-radius: 4px;
               display: inline-block;
               margin-bottom: 20px;
+              text-align: center;
             }
             .footer {
               font-size: 14px;
               color: #777;
               margin-top: 20px;
-              text-align: center;
+              text-align: left;
             }
           `}
         </style>
@@ -88,16 +89,11 @@ export default function VerificationEmail({
           </Row>
           <Row>
             <Text className="text">
-              Thank you for registering on Silhouette! Please use the following verification code to complete your registration:
+              Thank you for registering on Silhouette! Please use the following verification code to complete your registration. If you did not request this code, please ignore this email.
             </Text>
           </Row>
           <Row>
             <Text className="code">{verificationCode}</Text>
-          </Row>
-          <Row>
-            <Text className="text">
-              If you did not request this code, please ignore this email.
-            </Text>
           </Row>
           <Row className="footer">
             <Text className="text">Regards,</Text>
