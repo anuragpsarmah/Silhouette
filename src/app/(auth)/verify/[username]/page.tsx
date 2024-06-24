@@ -73,7 +73,6 @@ export default function Verify() {
     newOtp[index] = value.slice(0, 1);
     setOtp(newOtp);
 
-    // Move to the next input if value is added
     if (value && index < 5) {
       const nextInput = document.getElementById(`otp-${index + 1}`);
       if (nextInput) {

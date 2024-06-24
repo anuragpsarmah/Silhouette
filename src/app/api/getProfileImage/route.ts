@@ -43,13 +43,13 @@ export async function POST(request: Request) {
     if (user) {
       const profileImageUrl = user.profileImageUrl;
 
-      // Fetch the image data from the profileImageUrl
+      // Fetching the image data from the profileImageUrl
       const imageResponse = await fetch(profileImageUrl);
       if (!imageResponse.ok) {
         throw new Error('Failed to fetch image');
       }
 
-      // Convert the node-fetch response to a native Response
+      // Converting the node-fetch response to a native Response
       const imageBuffer = await imageResponse.arrayBuffer();
       const base64Image = Buffer.from(imageBuffer).toString('base64');
       const mimeType = imageResponse.headers.get('content-type') || '';

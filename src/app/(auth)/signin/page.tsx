@@ -20,7 +20,6 @@ export default function SignIn() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const router = useRouter();
 
-  // States for form inputs
   const [formData, setFormData] = useState<{
     identifier: string;
     password: string;
@@ -42,7 +41,6 @@ export default function SignIn() {
     };
   }, []);
 
-  // Handle input change
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prevState) => ({
@@ -51,7 +49,6 @@ export default function SignIn() {
     }));
   };
 
-  // Handle form submission
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);

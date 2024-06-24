@@ -26,7 +26,6 @@ export default function SignUp() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const router = useRouter();
 
-  // States for form inputs
   const [formData, setFormData] = useState<{
     username: string;
     email: string;
@@ -78,7 +77,6 @@ export default function SignUp() {
     }
   }, [formData.username]);
 
-  // Handle input change
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, files } = e.target;
     setFormData((prevState) => ({
@@ -87,7 +85,6 @@ export default function SignUp() {
     }));
   };
 
-  // Handle form submission
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
@@ -101,7 +98,7 @@ export default function SignUp() {
           uploadTask.on(
             "state_changed",
             (snapshot) => {
-              // Progress function (optional)
+              // Progress function 
             },
             (error) => {
               console.error("Error uploading image: ", error);

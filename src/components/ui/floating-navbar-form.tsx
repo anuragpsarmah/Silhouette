@@ -16,7 +16,6 @@ export const FloatingNavForm = ({
   }[];
   className?: string;
 }) => {
-  // By default, set the navbar to be visible
   const [visible, setVisible] = useState(true);
 
   return (
