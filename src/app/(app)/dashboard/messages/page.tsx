@@ -179,7 +179,7 @@ export default function Dashboard() {
             <Grow in={GrowIn} timeout={1200}>
               <div>
                 <h1 className="text-3xl font-bold mb-8 text-white">
-                  Well, you haven't been criticised yet. That's a good thing.
+                  Well, you haven&apos;t been criticised yet. That&apos;s a good thing.
                 </h1>
                 <center>
                   <button
