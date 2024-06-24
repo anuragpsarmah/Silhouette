@@ -176,7 +176,7 @@ export default function Dashboard() {
             className={cn("flex flex-row gap-2 fixed top-4 right-4 z-50")}
           >
             <button
-              className="bg-slate-800 no-underline group cursor-pointer relative shadow-2xl shadow-zinc-900 rounded-full p-px text-xs font-semibold leading-6 text-white inline-block"
+              className="bg-slate-800 hover:scale-105 no-underline group cursor-pointer relative shadow-2xl shadow-zinc-900 rounded-full p-px text-xs font-semibold leading-6 text-white inline-block"
               style={{ width: "7rem" }}
               onClick={() => {
                 router.replace(`/dashboard/messages`);
@@ -194,7 +194,7 @@ export default function Dashboard() {
               <span className="absolute -bottom-0 left-[1.125rem] h-px w-[calc(100%-2.25rem)] bg-gradient-to-r from-emerald-400/0 via-emerald-400/90 to-emerald-400/0 transition-opacity duration-500 group-hover:opacity-40" />
             </button>
             <button
-              className="bg-slate-800 no-underline group cursor-pointer relative shadow-2xl shadow-zinc-900 rounded-full p-px text-xs font-semibold leading-6 text-white inline-block"
+              className="bg-slate-800 hover:scale-105 no-underline group cursor-pointer relative shadow-2xl shadow-zinc-900 rounded-full p-px text-xs font-semibold leading-6 text-white inline-block"
               style={{ width: "7rem" }}
               onClick={() => {
                 signOut();
