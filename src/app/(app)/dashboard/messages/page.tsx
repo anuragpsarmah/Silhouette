@@ -213,7 +213,7 @@ export default function Dashboard() {
           <Grow in={GrowIn} timeout={1200}>
             <div>
               <h1 className="text-3xl font-bold mb-6">
-                Well, that's okay. Only words bleed.
+                Well, that&apos;s okay. Only words bleed.
               </h1>
               <div className="relative">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
