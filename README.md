@@ -30,7 +30,7 @@ cd Silhouette
     NEXT_PUBLIC_FIREBASE_APPID=
     NEXT_PUBLIC_FIREBASE_MEASUREMENTID=
     
- - Create accounts at MongoDB, Resend and Firebase to setup the keys. `NEXTAUTH_SECRET=` can be any secret or randomly generated key.    
+ - Create accounts at MongoDB, Resend and Firebase to setup the keys. `NEXTAUTH_SECRET` can be any secret or randomly generated key.    
 
 ## Running the Application
 
