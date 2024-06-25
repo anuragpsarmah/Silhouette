@@ -7,7 +7,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Silhouette",
-  description: "A critique platform for anonymous users.",
+  description: "A platform to critique anonymously.",
 };
 
 export default function RootLayout({
