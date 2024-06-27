@@ -37,3 +37,8 @@ cd Silhouette
   - Navigate to the root directory.
   - Install dependencies: `npm install`.
   - Start the application: `npm run dev`.
+
+## License
+
+This project is licensed under the Creative Commons Attribution 4.0 International License - see the [LICENSE](LICENSE) file for details.
+
